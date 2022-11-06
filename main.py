@@ -8,6 +8,6 @@ from time import sleep
 if(__name__ == "__main__"):
     while True:
         argument.ParseArguments()
-        sleep_sound.BoomerScheduler()
+        sleep_sound.SetBoomingTime()
         sleep_sound.GoBoom()
         sleep(1)

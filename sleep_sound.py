@@ -3,6 +3,8 @@ from datetime import datetime
 import os, random, sys, select
 from time import sleep, strptime
 from sound_go_boom_class import soundgoboom 
+import argparse
+import configparser
 
 
 running_dir = os.path.dirname(__file__)
@@ -12,16 +14,22 @@ time_min = 69
 time_max = 189
 time_begin = 2048
 time_over = 812
-booming_time = False
 force_1 = False
+
+booming_time = False
 boom_burst_count = 0
 boom_burst_min = 1
 boom_burst_max = 4
 boom_burst_amount = 1
-boom_burst_interval_min = 0.2
-boom_burst_interval_max = 1.2
-boom_burst_interval_amount = 0
+hold_on_time_min = 0.2
+hold_on_time_max = 1.2
+hold_on_time_amount = 0
 
+parser = argparse.ArgumentParser()
+parser.add_argument('-f', '--force', help='force noise when not at booming time',  action='store_true')
+args = parser.parse_args()
+
+config = configparser.ConfigParser()
 
 def GetCurrentTIme():
   full_datetime = datetime.now()
@@ -29,21 +37,18 @@ def GetCurrentTIme():
   good_datetime = int(raw_datetime)
   return good_datetime
 
-def BoomerScheduler():
+def SetBoomingTime():
   global booming_time
   global boom_burst_amount
-  global boom_burst_interval_amount
-  global boom_burst_interval_min
-  global boom_burst_interval_max
+  global hold_on_time_amount
+  global hold_on_time_min
+  global hold_on_time_max
 
   current_time = GetCurrentTIme()
   if (current_time > time_over and current_time < time_begin):
     booming_time = False
   elif(current_time > time_begin or current_time < time_over ):
     booming_time = True
-
-  boom_burst_amount = random.randint(boom_burst_min, boom_burst_max)
-  boom_burst_interval_amount = random.uniform(boom_burst_interval_min, boom_burst_interval_max)
   
 
 def SelectRandomAudio ():
@@ -64,32 +69,57 @@ def SetSilentInterval():
   print("Waiting for", p, "seconds")
   return p
 
+def ParseArgument():
+  if(booming_time):
+    print("booming time!")
+  else:
+    print("silent time")
+  if(args.force):
+    force_1 = True
+  else:
+    force_1 = False
+
+def ParseConfig():
+  config['DEFAULT'] = {'ServerAliveInterval': '45',
+                       'Compression': 'yes',
+                       'CompressionLevel': '9'}
+
+  config['bitbucket.org'] = {}
+  config['bitbucket.org']['User'] = 'hg'
+
+  config['topsecret.server.com'] = {}
+  topsecret = config['topsecret.server.com']
+  topsecret['Port'] = '50022'     # mutates the parser
+  topsecret['ForwardX11'] = 'no'  # same here
+
+  config['DEFAULT']['ForwardX11'] = 'yes'
+
+  with open('boom_config.ini', 'w') as configfile:
+    config.write(configfile)
+
 
 if (__name__ == "__main__"):
-  #force_1 = sys.argv[1]
+  ParseArgument()
   while True:
-    #print(running_dir)
-    #print(music_dir)
-    BoomerScheduler()
-    print(booming_time)
+    SetBoomingTime()
+    if(force_1 == True):
+      fs = SelectRandomAudio()
+      os.system('aplay -D hw:CARD=D1,DEV=0 ' + fs)
 
-    while (boom_burst_count < boom_burst_amount):
-      m = SelectRandomAudio()
-      if(booming_time or force_1 == 1):
-        os.system('aplay ' + m)
-        print("BOOM")
-        
-      
-      boom_burst_count += 1
-
-      print(boom_burst_count, "/", boom_burst_amount)
-      print("hold on ", boom_burst_interval_amount)
-      sleep(boom_burst_interval_amount)
-      
-    else:
-      boom_burst_count = 0
-
-    SL = SetSilentInterval()
-    sleep(SL)
-    sleep(1)
+    while(booming_time or force_1):
+      SL = SetSilentInterval()
+      sleep(SL)
+      boom_burst_amount = random.randint(boom_burst_min, boom_burst_max)
+      while(boom_burst_count < boom_burst_amount):
+        s = SelectRandomAudio()
+        os.system('aplay -D hw:CARD=D1,DEV=0 ' + s)
+        print("boom")
+        boom_burst_count += 1
+        print(boom_burst_count, "/", boom_burst_amount)
+        hold_on_time_amount = random.uniform(hold_on_time_min, hold_on_time_max)
+        print("hold on ", hold_on_time_amount)
+        sleep(hold_on_time_amount) 
+      else:
+        boom_burst_count = 0
+    sleep(.5)
 
