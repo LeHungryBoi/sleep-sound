@@ -11,34 +11,41 @@ from audioplayer import AudioPlayer
 running_dir = os.path.dirname(__file__)
 music_dir = os.path.join(running_dir, 'music')
  
-time_min = 69
-time_max = 189
-time_begin = 2048
-time_over = 812
+silent_interval_min = 69
+silent_interval_max = 189
+time_begin = "2048"
+time_peak = "0300"
+time_over = "0812"
 force_1 = False
 
 booming_time = False
 boom_burst_count = 0
 boom_burst_min = 1
-boom_burst_max = 4
+boom_burst_max = 3
 boom_burst_amount = 1
 hold_on_time_min = 0.2
 hold_on_time_max = 1.2
 hold_on_time_amount = 0
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-f', '--force', help='force noise when not at booming time',  action='store_true')
-parser.add_argument('-d', '--debug', help='short silent interval for debugging', action='store_true')
-args = parser.parse_args('-f --force -d --debug'.split())
+parser.add_argument('-f', '--force', default=False, action='store_true', help='force noise when not at booming time')
+parser.add_argument('-d', '--debug', default=False, action='store_true', help='short silent interval for debugging')
+args = parser.parse_args()
 
 
 config = configparser.ConfigParser()
 
-def GetCurrentTIme():
-  full_datetime = datetime.now()
-  raw_datetime = full_datetime.strftime('%H%M')
-  good_datetime = int(raw_datetime)
+def GetCurrentTimeInt():
+  #full_datetime = datetime.now()
+  #raw_datetime = full_datetime.strftime('%H%M')
+  good_datetime = int(datetime.now().strftime('%H%M'))
   return good_datetime
+
+def SetContinuousTime():
+  if (time_over < time_begin):
+    temp_time_begin = time_begin
+    temp_time_over = time_over + 2400
+
 
 def SetBoomingTime():
   global booming_time
@@ -47,11 +54,25 @@ def SetBoomingTime():
   global hold_on_time_min
   global hold_on_time_max
 
-  current_time = GetCurrentTIme()
-  if (current_time > time_over and current_time < time_begin):
-    booming_time = False
-  elif(current_time > time_begin or current_time < time_over ):
+  current_time_int = GetCurrentTimeInt()
+  time_begin_int = int(time_begin)
+  time_over_int = int(time_over)
+  if(time_begin_int < time_over_int): #in one day
+    if (current_time_int > time_begin_int and current_time_int < time_over_int):#one day
+      booming_time = True
+    else:
+      booming_time = False
+  elif(time_begin_int > time_over_int): #across two day
+    if(current_time_int > time_over_int and current_time_int < time_begin_int):
+      booming_time = False
+    else:
+      booming_time = True
+  else:
     booming_time = True
+  if(booming_time):
+    print("booming time")
+  else:
+    print("silent time")
   
 def SetVolume():
   r = random.randint(50, 100)
@@ -75,7 +96,7 @@ def GoBoom():
     print("BOOM")
 
 def SetSilentInterval():
-  p = random.randint(time_min, time_max)
+  p = random.randint(silent_interval_min, silent_interval_max)
   print("Waiting for", p, "seconds")
   return p
 
@@ -87,12 +108,10 @@ def PlayRandomSound():
   ap.play(loop=False, block=True)
 
 def ParseArgument():
+  global args
+  print(args.force)
+  print(args.debug)
   global force_1
-
-  if(booming_time):
-    print("booming time!")
-  else:
-    print("silent time")
   if(args.force):
     force_1 = True
     print("force is True")
@@ -100,10 +119,11 @@ def ParseArgument():
     force_1 = False
     print("force is False")
   if(args.debug):
-    global time_min
-    global time_max
-    time_min = 1
-    time_max = 2
+    global silent_interval_min
+    global silent_interval_max
+    silent_interval_min = 1
+    silent_interval_max = 2
+    print("short silent interval")
   else:
     pass
 
