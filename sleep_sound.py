@@ -32,7 +32,7 @@ parser.add_argument('-f', '--force', default=False, action='store_true', help='f
 parser.add_argument('-d', '--debug', default=False, action='store_true', help='short silent interval for debugging')
 args = parser.parse_args()
 
-
+gst = False
 config = configparser.ConfigParser()
 
 def GetCurrentTimeInt():
@@ -101,11 +101,16 @@ def SetSilentInterval():
   return p
 
 def PlayRandomSound():
-  s = ReturnPathToRandomAudio()
-  ap = AudioPlayer(s)
-  v = SetVolume()
-  ap.volume = v
-  ap.play(loop=False, block=True)
+  global gst
+  if(gst):
+    s = ReturnPathToRandomAudio()
+    ap = AudioPlayer(s)
+    v = SetVolume()
+    ap.volume = v
+    ap.play(loop=False, block=True)
+  else:
+    s = ReturnPathToRandomAudio()
+    os.system('aplay -D hw:CARD=D1,DEV=0 ' + s)
   print("boom")
 
 def ParseArgument():
