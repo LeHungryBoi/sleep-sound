@@ -106,6 +106,7 @@ def PlayRandomSound():
   v = SetVolume()
   ap.volume = v
   ap.play(loop=False, block=True)
+  print("boom")
 
 def ParseArgument():
   global args
@@ -160,7 +161,6 @@ if (__name__ == "__main__"):
       while(boom_burst_count < boom_burst_amount):
         PlayRandomSound()
         #os.system('aplay -D hw:CARD=D1,DEV=0 ' + s)
-        print("boom")
         boom_burst_count += 1
         print(boom_burst_count, "/", boom_burst_amount)
         hold_on_time_amount = random.uniform(hold_on_time_min, hold_on_time_max)
@@ -168,5 +168,5 @@ if (__name__ == "__main__"):
         sleep(hold_on_time_amount) 
       else:
         boom_burst_count = 0
-    sleep(.5)
+    sleep(1)
 
