@@ -80,7 +80,7 @@ def SetVolume():
 
 def ReturnPathToRandomAudio ():
   randomfile = random.choice(os.listdir(music_dir))
-  print ("Playing file" ,randomfile,"...")
+  print ("Selected " ,randomfile)
   rmusic_file = os.path.join(music_dir, randomfile)
   return rmusic_file
 
@@ -101,7 +101,7 @@ def SetSilentInterval():
   return p
 
 def PlayRandomSound():
-  s = ReturnAPRandomAudio()
+  s = ReturnPathToRandomAudio()
   ap = AudioPlayer(s)
   v = SetVolume()
   ap.volume = v
