@@ -3,8 +3,8 @@ Description=A python script that make shit goes BOOM
 
 [Service]
 WorkingDirectory=/home/pi/boom
-ExecStart=python3 /home/pi/boom/sleep_sound.py 0
-Restart=on-failure
+ExecStart=python3 /home/pi/boom/sleep_sound.py
+Restart=always
 User=pi
 
 [Install]

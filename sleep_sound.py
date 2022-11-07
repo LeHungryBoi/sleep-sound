@@ -22,7 +22,7 @@ booming_time = False
 boom_burst_count = 0
 boom_burst_min = 1
 boom_burst_max = 3
-boom_burst_amount = 1
+boom_burst_amount = 0
 hold_on_time_min = 5
 hold_on_time_max = 15
 hold_on_time_amount = 0
@@ -30,9 +30,10 @@ hold_on_time_amount = 0
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', '--force', default=False, action='store_true', help='force noise when not at booming time')
 parser.add_argument('-d', '--debug', default=False, action='store_true', help='short silent interval for debugging')
+parser.add_argument('--ap', default=False, action='store_true', help='use audioplayer library')
 args = parser.parse_args()
 
-gst = False
+ap = False
 config = configparser.ConfigParser()
 
 def GetCurrentTimeInt():
@@ -101,8 +102,8 @@ def SetSilentInterval():
   return p
 
 def PlayRandomSound():
-  global gst
-  if(gst):
+  global ap
+  if(ap):
     s = ReturnPathToRandomAudio()
     ap = AudioPlayer(s)
     v = SetVolume()
@@ -127,11 +128,18 @@ def ParseArgument():
   if(args.debug):
     global silent_interval_min
     global silent_interval_max
+    global hold_on_time_min
+    global hold_on_time_max
     silent_interval_min = 1
     silent_interval_max = 2
+    hold_on_time_min = 0.2
+    hold_on_time_max = 0.4
     print("short silent interval")
   else:
     pass
+  if(args.ap):
+    global ap
+    ap = True
 
 def ParseConfig():
   config['DEFAULT'] = {'ServerAliveInterval': '45',

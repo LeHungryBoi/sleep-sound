@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": ["-fd"],
+            "args": ["-fd", "--ap"],
             "console": "integratedTerminal",
             "justMyCode": true
         }
