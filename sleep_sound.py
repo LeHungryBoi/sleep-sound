@@ -169,6 +169,7 @@ if (__name__ == "__main__"):
 
     while(booming_time or force_1):
       SL = SetSilentInterval()
+      print("sleeping for ", SL)
       sleep(SL)
       boom_burst_amount = random.randint(boom_burst_min, boom_burst_max)
       while(boom_burst_count < boom_burst_amount):
