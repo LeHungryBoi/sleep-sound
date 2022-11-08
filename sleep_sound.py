@@ -75,8 +75,8 @@ def SetBoomingTime():
   else:
     print("silent time")
   
-def SetVolume():
-  r = random.randint(50, 100)
+def SetVolume(min = 50.0, max = 100.0):
+  r = random.uniform(min, max)
   return r
 
 def ReturnPathToRandomAudio ():
@@ -111,7 +111,7 @@ def PlayRandomSound():
     ap.play(loop=False, block=True)
   else:
     s = ReturnPathToRandomAudio()
-    v = SetVolume()
+    v = SetVolume(0.4, 1.1)
     os.system('aplay -D hw:CARD=D1,DEV=0 ' + s)
     os.system('play -v ' + v + " " + s)
   print("boom")
