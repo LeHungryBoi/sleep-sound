@@ -167,7 +167,7 @@ if (__name__ == "__main__"):
     if(force_1 == True):
       PlayRandomSound()
 
-    while(booming_time or force_1):
+    if(booming_time or force_1):
       SL = SetSilentInterval()
       print("sleeping for ", SL)
       sleep(SL)
