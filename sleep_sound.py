@@ -111,7 +111,9 @@ def PlayRandomSound():
     ap.play(loop=False, block=True)
   else:
     s = ReturnPathToRandomAudio()
+    v = SetVolume()
     os.system('aplay -D hw:CARD=D1,DEV=0 ' + s)
+    os.system('play -v ' + v + " " + s)
   print("boom")
 
 def ParseArgument():
