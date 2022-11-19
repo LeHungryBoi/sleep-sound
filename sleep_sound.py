@@ -111,8 +111,7 @@ def PlayRandomSound():
     ap.play(loop=False, block=True)
   else:
     s = ReturnPathToRandomAudio()
-    v = SetVolume(0.4, 1.1)
-    os.system('aplay -D hw:CARD=D1,DEV=0 ' + s)
+    v = SetVolume(0.8, 1.2)
     os.system('play -v ' + str(v) + " " + s)
   print("boom")
 
