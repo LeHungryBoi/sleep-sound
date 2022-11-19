@@ -11,8 +11,8 @@ from audioplayer import AudioPlayer
 running_dir = os.path.dirname(__file__)
 music_dir = os.path.join(running_dir, 'music')
  
-silent_interval_min = 924
-silent_interval_max = 1800
+silent_interval_min = 900
+silent_interval_max = 1200
 time_begin = "2248"
 time_peak = "0300"
 time_over = "0812"
@@ -20,11 +20,11 @@ force_1 = False
 
 booming_time = False
 boom_burst_count = 0
-boom_burst_min = 1
+boom_burst_min = 2
 boom_burst_max = 3
 boom_burst_amount = 0
-hold_on_time_min = 5
-hold_on_time_max = 15
+hold_on_time_min = 0.2
+hold_on_time_max = 0.6
 hold_on_time_amount = 0
 
 parser = argparse.ArgumentParser()
