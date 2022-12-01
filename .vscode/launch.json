@@ -9,7 +9,8 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": ["-d", "--ap"],
+            //"args": ["-fi", "--ap"],
+            "args": ["--ap", "-b 2300"],
             "console": "integratedTerminal",
             "justMyCode": true
         }

@@ -13,24 +13,26 @@ music_dir = os.path.join(running_dir, 'music')
  
 silent_interval_min = 900
 silent_interval_max = 1200
-time_begin = "2248"
+time_begin = "2348"
+time_over = "0512"
 time_peak = "0300"
-time_over = "0812"
 force_1 = False
 
 booming_time = False
 boom_burst_count = 0
-boom_burst_min = 2
-boom_burst_max = 3
+boom_burst_min = 1
+boom_burst_max = 2
 boom_burst_amount = 0
 hold_on_time_min = 0.2
-hold_on_time_max = 0.6
+hold_on_time_max = 0.4
 hold_on_time_amount = 0
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', '--force', default=False, action='store_true', help='force noise when not at booming time')
-parser.add_argument('-d', '--debug', default=False, action='store_true', help='short silent interval for debugging')
+parser.add_argument('-i', '--interval', default=False, action='store_true', help='short silent interval for debugging')
 parser.add_argument('--ap', default=False, action='store_true', help='use audioplayer library')
+parser.add_argument('-b', '--begin', default=None, help='begining time of boom')
+parser.add_argument('-o', '--over', default=None, help='over time of boom')
 args = parser.parse_args()
 
 ap = False
@@ -117,8 +119,6 @@ def PlayRandomSound():
 
 def ParseArgument():
   global args
-  print(args.force)
-  print(args.debug)
   global force_1
   if(args.force):
     force_1 = True
@@ -126,7 +126,7 @@ def ParseArgument():
   else:
     force_1 = False
     print("force is False")
-  if(args.debug):
+  if(args.interval):
     global silent_interval_min
     global silent_interval_max
     global hold_on_time_min
@@ -141,6 +141,13 @@ def ParseArgument():
   if(args.ap):
     global ap
     ap = True
+
+  if(args.begin != None):
+    global time_begin
+    time_begin = args.begin
+  if(args.over != None):
+    global time_over
+    time_over = args.over
 
 def ParseConfig():
   config['DEFAULT'] = {'ServerAliveInterval': '45',
