@@ -8,5 +8,5 @@ Restart=always
 User=pi
 
 [Install]
-Alias=boom
+Alias=boom.service
 WantedBy=multi-user.target
