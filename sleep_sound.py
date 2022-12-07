@@ -21,7 +21,7 @@ force_1 = False
 booming_time = False
 boom_burst_count = 0
 boom_burst_min = 1
-boom_burst_max = 2
+boom_burst_max = 1
 boom_burst_amount = 0
 hold_on_time_min = 0.2
 hold_on_time_max = 0.4
@@ -170,22 +170,24 @@ def ParseConfig():
 
 if (__name__ == "__main__"):
   ParseArgument()
+  if(force_1 == True):
+      PlayRandomSound()
   while True:
     SetBoomingTime()
-    if(force_1 == True):
-      PlayRandomSound()
-
     if(booming_time or force_1):
       SL = SetSilentInterval()
       print("sleeping for ", SL)
       sleep(SL)
+      #Silent Interval(Long Stop) between sound
+
       boom_burst_amount = random.randint(boom_burst_min, boom_burst_max)
+      #randomly set how many burst
+
       while(boom_burst_count < boom_burst_amount):
         PlayRandomSound()
-        #os.system('aplay -D hw:CARD=D1,DEV=0 ' + s)
         boom_burst_count += 1
         print(boom_burst_count, "/", boom_burst_amount)
-        hold_on_time_amount = random.uniform(hold_on_time_min, hold_on_time_max)
+        hold_on_time_amount = random.uniform(hold_on_time_min, hold_on_time_max) # change hold_on_time to rythmic pause
         print("hold on ", hold_on_time_amount)
         sleep(hold_on_time_amount) 
       else:

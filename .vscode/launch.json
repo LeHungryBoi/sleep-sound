@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             //"args": ["-fi", "--ap"],
-            "args": ["--ap", "-b 2300"],
+            "args": ["--ap", "-fi"],
             "console": "integratedTerminal",
             "justMyCode": true
         }
