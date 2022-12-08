@@ -57,9 +57,6 @@ def SetContinuousTime():
 def SetBoomingTime():
   global booming_time
   global boom_burst_amount
-  global rythmic_pause_amount
-  global rythmic_pause_min
-  global rythmic_pause_max
 
   current_time_int = GetCurrentTimeInt()
   time_begin_int = int(time_begin)
@@ -153,20 +150,16 @@ def ParseArgument():
     global time_over
     time_over = args.over
 
-  if(args.rmin != None):
-    global rythmic_pause_min
-    rythmic_pause_min = args.rmin
+  if(args.rmin):
+    rythmic_pause_min = float(args.rmin)
 
   if(args.rmax != None):
-    global rythmic_pause_max
-    rythmic_pause_max = args.rmax
+    rythmic_pause_max = float(args.rmax)
 
   if(args.smin != None):
-    global silent_interval_min
-    silent_interval_min = args.smin
+    silent_interval_min = int(args.smin)
   if(args.smax != None):
-    global silent_interval_max
-    silent_interval_max = args.smax
+    silent_interval_max = int(args.smax)
 
 def ParseConfig():
   config['DEFAULT'] = {'ServerAliveInterval': '45',
@@ -206,7 +199,7 @@ if (__name__ == "__main__"):
         PlayRandomSound()
         boom_burst_count += 1
         print(boom_burst_count, "/", boom_burst_amount)
-        rythmic_pause_amount = random.uniform(rythmic_pause_min, rythmic_pause_max) # change hold_on_time to rythmic pause
+        rythmic_pause_amount = random.uniform(rythmic_pause_min, rythmic_pause_max) 
         print("hold on ", rythmic_pause_amount)
         sleep(rythmic_pause_amount) 
       else:
