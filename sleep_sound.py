@@ -23,9 +23,9 @@ boom_burst_count = 0
 boom_burst_min = 1
 boom_burst_max = 1
 boom_burst_amount = 0
-hold_on_time_min = 0.2
-hold_on_time_max = 0.4
-hold_on_time_amount = 0
+rythmic_pause_min = 0.2
+rythmic_pause_max = 0.4
+rythmic_pause_amount = 0
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', '--force', default=False, action='store_true', help='force noise when not at booming time')
@@ -33,6 +33,10 @@ parser.add_argument('-i', '--interval', default=False, action='store_true', help
 parser.add_argument('--ap', default=False, action='store_true', help='use audioplayer library')
 parser.add_argument('-b', '--begin', default=None, help='begining time of boom')
 parser.add_argument('-o', '--over', default=None, help='over time of boom')
+parser.add_argument('--rmin', default=None, help='rythmic pause minimum')
+parser.add_argument('--rmax', default=None, help='rythmic pause maximum')
+parser.add_argument('--smin', default=None, help='silent interval minimum')
+parser.add_argument('--smax', default=None, help='silent interval maximum')
 args = parser.parse_args()
 
 ap = False
@@ -53,9 +57,9 @@ def SetContinuousTime():
 def SetBoomingTime():
   global booming_time
   global boom_burst_amount
-  global hold_on_time_amount
-  global hold_on_time_min
-  global hold_on_time_max
+  global rythmic_pause_amount
+  global rythmic_pause_min
+  global rythmic_pause_max
 
   current_time_int = GetCurrentTimeInt()
   time_begin_int = int(time_begin)
@@ -129,12 +133,12 @@ def ParseArgument():
   if(args.interval):
     global silent_interval_min
     global silent_interval_max
-    global hold_on_time_min
-    global hold_on_time_max
+    global rythmic_pause_min
+    global rythmic_pause_max
     silent_interval_min = 1
     silent_interval_max = 2
-    hold_on_time_min = 0.2
-    hold_on_time_max = 0.4
+    rythmic_pause_min = 0.2
+    rythmic_pause_max = 0.4
     print("short silent interval")
   else:
     pass
@@ -148,6 +152,21 @@ def ParseArgument():
   if(args.over != None):
     global time_over
     time_over = args.over
+
+  if(args.rmin != None):
+    global rythmic_pause_min
+    rythmic_pause_min = args.rmin
+
+  if(args.rmax != None):
+    global rythmic_pause_max
+    rythmic_pause_max = args.rmax
+
+  if(args.smin != None):
+    global silent_interval_min
+    silent_interval_min = args.smin
+  if(args.smax != None):
+    global silent_interval_max
+    silent_interval_max = args.smax
 
 def ParseConfig():
   config['DEFAULT'] = {'ServerAliveInterval': '45',
@@ -187,9 +206,9 @@ if (__name__ == "__main__"):
         PlayRandomSound()
         boom_burst_count += 1
         print(boom_burst_count, "/", boom_burst_amount)
-        hold_on_time_amount = random.uniform(hold_on_time_min, hold_on_time_max) # change hold_on_time to rythmic pause
-        print("hold on ", hold_on_time_amount)
-        sleep(hold_on_time_amount) 
+        rythmic_pause_amount = random.uniform(rythmic_pause_min, rythmic_pause_max) # change hold_on_time to rythmic pause
+        print("hold on ", rythmic_pause_amount)
+        sleep(rythmic_pause_amount) 
       else:
         boom_burst_count = 0
     sleep(1)
