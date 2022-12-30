@@ -13,8 +13,8 @@ music_dir = os.path.join(running_dir, 'music')
  
 silent_interval_min = 900
 silent_interval_max = 1200
-time_begin = "2348"
-time_over = "0512"
+time_begin = "2148"
+time_over = "0812"
 time_peak = "0300"
 force_1 = False
 
@@ -179,6 +179,10 @@ def ParseConfig():
   with open('boom_config.ini', 'w') as configfile:
     config.write(configfile)
 
+def RandomBoom(probability):
+  return random.randrange(0, 100) > probability
+
+
 
 if (__name__ == "__main__"):
   ParseArgument()
@@ -196,7 +200,9 @@ if (__name__ == "__main__"):
       #randomly set how many burst
 
       while(boom_burst_count < boom_burst_amount):
-        PlayRandomSound()
+        will = RandomBoom(40)
+        if(will):
+          PlayRandomSound()
         boom_burst_count += 1
         print(boom_burst_count, "/", boom_burst_amount)
         rythmic_pause_amount = random.uniform(rythmic_pause_min, rythmic_pause_max) 
