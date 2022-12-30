@@ -204,9 +204,13 @@ if (__name__ == "__main__"):
         if(will):
           PlayRandomSound()
         boom_burst_count += 1
-        print(boom_burst_count, "/", boom_burst_amount)
+        if(will):
+          print(boom_burst_count, "/", boom_burst_amount)
         rythmic_pause_amount = random.uniform(rythmic_pause_min, rythmic_pause_max) 
-        print("hold on ", rythmic_pause_amount)
+        if(will):
+          print("hold on ", rythmic_pause_amount)
+        if(not will):
+          print("it's a dud")
         sleep(rythmic_pause_amount) 
       else:
         boom_burst_count = 0
