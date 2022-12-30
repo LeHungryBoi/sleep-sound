@@ -13,9 +13,9 @@ music_dir = os.path.join(running_dir, 'music')
  
 silent_interval_min = 900
 silent_interval_max = 1200
-time_begin = "2148"
-time_over = "0812"
-time_peak = "0300"
+time_begin = "2138"
+time_over = "0832"
+possibility = 40
 force_1 = False
 
 booming_time = False
@@ -200,7 +200,7 @@ if (__name__ == "__main__"):
       #randomly set how many burst
 
       while(boom_burst_count < boom_burst_amount):
-        will = RandomBoom(40)
+        will = RandomBoom(possibility)
         if(will):
           PlayRandomSound()
         boom_burst_count += 1
