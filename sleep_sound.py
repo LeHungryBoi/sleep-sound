@@ -15,13 +15,13 @@ silent_interval_min = 900
 silent_interval_max = 1200
 time_begin = "2138"
 time_over = "0832"
-possibility = 40
+possibility = 60
 force_1 = False
 
 booming_time = False
 boom_burst_count = 0
 boom_burst_min = 1
-boom_burst_max = 1
+boom_burst_max = 3
 boom_burst_amount = 0
 rythmic_pause_min = 0.2
 rythmic_pause_max = 0.4
@@ -180,7 +180,7 @@ def ParseConfig():
     config.write(configfile)
 
 def RandomBoom(probability):
-  return random.randrange(0, 100) > probability
+  return random.randrange(0, 100) < probability
 
 
 
