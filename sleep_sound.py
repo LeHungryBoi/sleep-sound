@@ -17,6 +17,7 @@ time_begin = "2138"
 time_over = "0832"
 possibility = 60
 force_1 = False
+skip_initial_sound = False
 
 booming_time = False
 boom_burst_count = 0
@@ -33,6 +34,7 @@ parser.add_argument('-i', '--interval', default=False, action='store_true', help
 parser.add_argument('--ap', default=False, action='store_true', help='use audioplayer library')
 parser.add_argument('-b', '--begin', default=None, help='begining time of boom')
 parser.add_argument('-o', '--over', default=None, help='over time of boom')
+parser.add_argument('-w', '--wait', default=False, action='store_true', help='skip initial sleep sound right after execution')
 parser.add_argument('--rmin', default=None, help='rythmic pause minimum')
 parser.add_argument('--rmax', default=None, help='rythmic pause maximum')
 parser.add_argument('--smin', default=None, help='silent interval minimum')
@@ -121,6 +123,7 @@ def PlayRandomSound():
 def ParseArgument():
   global args
   global force_1
+  global skip_initial_sound
   if(args.force):
     force_1 = True
     print("force is True")
@@ -160,6 +163,8 @@ def ParseArgument():
     silent_interval_min = int(args.smin)
   if(args.smax != None):
     silent_interval_max = int(args.smax)
+  if(args.wait):
+    skip_initial_sound = False
 
 def ParseConfig():
   config['DEFAULT'] = {'ServerAliveInterval': '45',
@@ -186,7 +191,7 @@ def RandomBoom(probability):
 
 if (__name__ == "__main__"):
   ParseArgument()
-  if(force_1 == True):
+  if(skip_initial_sound == True):
       PlayRandomSound()
   while True:
     SetBoomingTime()
