@@ -2,10 +2,10 @@
 Description=A python script that make shit goes BOOM
 
 [Service]
-WorkingDirectory=/home/pi/boom
-ExecStart=python3 /home/pi/boom/sleep_sound.py
+WorkingDirectory=/home/fatty/sleep-sound
+ExecStart=python3 /home/fatty/sleep-sound/sleep_sound.py -f
 Restart=always
-User=pi
+User=fatty
 
 [Install]
 Alias=boom.service

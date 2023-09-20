@@ -1,1 +1,1 @@
-python sleep_sound.py --ap
+python sleep_sound.py --ap -f -w

@@ -12,7 +12,7 @@ running_dir = os.path.dirname(__file__)
 music_dir = os.path.join(running_dir, 'music')
  
 silent_interval_min = 900
-silent_interval_max = 1200
+silent_interval_max = 1800
 time_begin = "2138"
 time_over = "0832"
 possibility = 60
@@ -117,8 +117,8 @@ def PlayRandomSound():
   else:
     s = ReturnPathToRandomAudio()
     v = SetVolume(0.8, 1.2)
-    os.system('play -v ' + str(v) + " " + s)
-  print("boom")
+    os.system('aplay -D hw:D1,0 ' + s)
+    print("boom")
 
 def ParseArgument():
   global args

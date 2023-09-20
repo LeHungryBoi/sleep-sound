@@ -15,9 +15,8 @@ class soundgoboom:
 
     def SoundGoBoom (audio_file):
         if(sys.platform == 'linux'):
-            #os.system('omxplayer -o alsa ' + audio_file)
             print(audio_file)
-            os.system('aplay -D hw:CARD=D1 ' + audio_file)
+            os.system('aplay ' + audio_file)
             
         elif(sys.platform == 'win32'):
             PlaySound(audio_file, False)
