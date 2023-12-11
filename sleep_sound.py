@@ -35,6 +35,7 @@ parser.add_argument('--ap', default=False, action='store_true', help='use audiop
 parser.add_argument('-b', '--begin', default=None, help='begining time of boom')
 parser.add_argument('-o', '--over', default=None, help='over time of boom')
 parser.add_argument('-w', '--wait', default=False, action='store_true', help='skip initial sleep sound right after execution')
+parser.add_argument('-p', default=False, action='store_true', help='to force the posibility to be true')
 parser.add_argument('--rmin', default=None, help='rythmic pause minimum')
 parser.add_argument('--rmax', default=None, help='rythmic pause maximum')
 parser.add_argument('--smin', default=None, help='silent interval minimum')
@@ -135,6 +136,7 @@ def ParseArgument():
     global silent_interval_max
     global rythmic_pause_min
     global rythmic_pause_max
+    global p_flag
     silent_interval_min = 1
     silent_interval_max = 2
     rythmic_pause_min = 0.2
@@ -165,6 +167,8 @@ def ParseArgument():
     silent_interval_max = int(args.smax)
   if(args.wait):
     skip_initial_sound = False
+  if(args.p):
+    p_flag = True
 
 def ParseConfig():
   config['DEFAULT'] = {'ServerAliveInterval': '45',
@@ -205,7 +209,10 @@ if (__name__ == "__main__"):
       #randomly set how many burst
 
       while(boom_burst_count < boom_burst_amount):
-        will = RandomBoom(possibility)
+        if(p_flag):
+          will = True
+        else:
+          will = RandomBoom(possibility)
         if(will):
           PlayRandomSound()
         boom_burst_count += 1
