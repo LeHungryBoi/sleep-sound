@@ -32,6 +32,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-f', '--force', default=False, action='store_true', help='force noise when not at booming time')
 parser.add_argument('-i', '--interval', default=False, action='store_true', help='short silent interval for debugging')
 parser.add_argument('--ap', default=False, action='store_true', help='use audioplayer library')
+parser.add_argument('-v', '--verbose', default=False, action='store_true', help='print out silent or boom')
 parser.add_argument('-b', '--begin', default=None, help='begining time of boom')
 parser.add_argument('-o', '--over', default=None, help='over time of boom')
 parser.add_argument('-w', '--wait', default=False, action='store_true', help='skip initial sleep sound right after execution')
@@ -77,9 +78,11 @@ def SetBoomingTime():
   else:
     booming_time = True
   if(booming_time):
-    print("booming time")
+    if(args.verbose):
+        print("booming time")
   else:
-    print("silent time")
+    if(args.verbose):
+        print("silent time")
   
 def SetVolume(min = 50.0, max = 100.0):
   r = random.uniform(min, max)
