@@ -16,7 +16,7 @@ class soundgoboom:
     def SoundGoBoom (audio_file):
         if(sys.platform == 'linux'):
             print(audio_file)
-            os.system('aplay ' + audio_file)
+            os.system("aplay -D plughw:CARD=D1,DEV=0 " + audio_file)
             
         elif(sys.platform == 'win32'):
             PlaySound(audio_file, False)
