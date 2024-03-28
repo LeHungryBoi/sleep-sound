@@ -17,7 +17,7 @@ time_begin = "2138"
 time_over = "0832"
 possibility = 60
 force_1 = False
-skip_initial_sound = False
+skip_initial_sound = True
 
 booming_time = False
 boom_burst_count = 0
