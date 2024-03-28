@@ -7,7 +7,6 @@ import argparse
 import configparser
 from audioplayer import AudioPlayer
 
-
 running_dir = os.path.dirname(__file__)
 music_dir = os.path.join(running_dir, 'music')
  
